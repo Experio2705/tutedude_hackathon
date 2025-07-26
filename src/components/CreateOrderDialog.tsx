@@ -77,88 +77,6 @@ export const CreateOrderDialog = ({ supplierId, onOrderCreated }: CreateOrderDia
     }, 0);
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     // Get current user
-  //     const { data: { user } } = await supabase.auth.getUser();
-  //     if (!user) throw new Error('Not authenticated');
-
-  //     // Get vendor profile
-  //     const { data: profiles, error: profileError } = await supabase
-  //       .from('profiles')
-  //       .select('id')
-  //       .eq('user_id', user.id)
-  //       .single();
-
-  //     if (profileError) throw profileError;
-
-  //     const totalAmount = calculateTotal();
-  //     const orderNumber = `ORD-${Date.now()}`;
-
-  //     // Create order
-  //     const { data: order, error: orderError } = await supabase
-  //       .from('orders')
-  //       .insert({
-  //         order_number: orderNumber,
-  //         vendor_id: profiles.id,
-  //         supplier_id: formData.supplier_id || null,
-  //         total_amount: totalAmount,
-  //         delivery_address: formData.delivery_address,
-  //         delivery_date: formData.delivery_date || null,
-  //         notes: formData.notes || null,
-  //         status: 'pending'
-  //       })
-  //       .select()
-  //       .single();
-
-  //     if (orderError) throw orderError;
-
-  //     // Create order items
-  //     for (const item of formData.items) {
-  //       if (item.product_name && item.quantity && item.unit_price) {
-  //         const { error: itemError } = await supabase
-  //           .from('order_items')
-  //           .insert({
-  //             order_id: order.id,
-  //             product_id: null, // We'll use product name for now
-  //             quantity: parseFloat(item.quantity),
-  //             unit_price: parseFloat(item.unit_price),
-  //             total_price: parseFloat(item.total_price)
-  //           });
-
-  //         if (itemError) throw itemError;
-  //       }
-  //     }
-
-  //     toast({
-  //       title: "Success",
-  //       description: `Order ${orderNumber} created successfully!`
-  //     });
-
-  //     setOpen(false);
-  //     setFormData({
-  //       supplier_id: supplierId || '',
-  //       delivery_address: '',
-  //       delivery_date: '',
-  //       notes: '',
-  //       items: [{ product_name: '', quantity: '', unit_price: '', total_price: '' }]
-  //     });
-      
-  //     onOrderCreated();
-  //   } catch (error) {
-  //     console.error('Error creating order:', error);
-  //     toast({
-  //       title: "Error",
-  //       description: "Failed to create order. Please try again.",
-  //       variant: "destructive"
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setLoading(true);
@@ -199,22 +117,6 @@ export const CreateOrderDialog = ({ supplierId, onOrderCreated }: CreateOrderDia
 
     const orderId = orderData.id;
 
-    // // 2. Prepare order_items payload
-    // const itemsPayload = formData.items.map(item => ({
-    //   order_id: orderId,
-    //   product_id: item.product_id,
-    //   quantity: parseFloat(item.quantity),
-    //   unit_price: parseFloat(item.unit_price),
-    //   total_price: parseFloat(item.total_price)
-    // }));
-
-    // // 3. Insert order items
-    // const { error: itemsError } = await supabase
-    //   .from('order_items')
-    //   .insert(itemsPayload);
-
-    // if (itemsError) throw itemsError;
-    // 2. Insert order items with product_id lookup
 for (const item of formData.items) {
   if (item.product_name && item.quantity && item.unit_price) {
     // Look up product_id by product name
