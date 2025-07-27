@@ -51,33 +51,6 @@ export default function SupplierDashboard() {
 
   const fetchOrders = async () => {
     try {
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      // Get user's profile
-      const { data: profiles, error: profileError } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError) throw profileError;
-
-      // Get supplier record
-      const { data: suppliers, error: supplierError } = await supabase
-        .from('suppliers')
-        .select('id')
-        .eq('profile_id', profiles.id)
-        .single();
-
-      if (supplierError) {
-        console.log('No supplier record found');
-        setOrders([]);
-        return;
-      }
-
-      // Get orders for this supplier
       const { data, error } = await supabase
         .from('orders')
         .select(`
@@ -87,7 +60,6 @@ export default function SupplierDashboard() {
             business_name
           )
         `)
-        .eq('supplier_id', suppliers.id)
         .eq('status', 'pending')
         .order('created_at', { ascending: false })
         .limit(10);
