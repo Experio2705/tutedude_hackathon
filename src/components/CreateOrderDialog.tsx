@@ -38,15 +38,13 @@ export const CreateOrderDialog = ({ supplierId, onOrderCreated }: CreateOrderDia
   const addItem = () => {
     setFormData(prev => ({
       ...prev,
-      items: [
-  {
-    product_id: '',         // ✅ Add this
-    product_name: '',
-    quantity: '',
-    unit_price: '',
-    total_price: '',
-  },
-]
+      items: [...prev.items, {
+        product_id: '',
+        product_name: '',
+        quantity: '',
+        unit_price: '',
+        total_price: '',
+      }]
     }));
   };
 
