@@ -13,7 +13,7 @@ import { VendorStats } from "@/components/DashboardStats";
 import { BackButton } from "@/components/BackButton";
 import { VendorOrdersTab } from "@/components/VendorOrdersTab";
 import { VendorFavoritesTab } from "@/components/VendorFavoritesTab";
-import { ProductViewDialog } from "@/components/ProductViewDialog";
+import { SearchableSuppliers } from "@/components/SearchableSuppliers";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -199,108 +199,7 @@ export default function VendorDashboard() {
             </TabsList>
 
             <TabsContent value="suppliers" className="space-y-6">
-              {/* Search */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Search Suppliers</CardTitle>
-                  <CardDescription>
-                    Find verified suppliers for your raw materials
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex gap-4">
-                    <div className="flex-1">
-                      <Input
-                        placeholder="Search for products, suppliers, or locations..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full"
-                      />
-                    </div>
-                    <Button className="bg-brand-gradient hover:opacity-90">
-                      <Search className="w-4 h-4 mr-2" />
-                      Search
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Available Suppliers */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Available Suppliers</h2>
-                
-                <div className="space-y-4">
-                  {suppliers.length === 0 ? (
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-muted-foreground text-center">
-                          {loading ? "Loading suppliers..." : "No suppliers found. Contact suppliers to start seeing them here."}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ) : (
-                    suppliers.map((supplier: any) => (
-                      <Card key={supplier.id} className="hover:shadow-medium transition-all">
-                        <CardContent className="p-6">
-                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div className="flex-1 space-y-3">
-                              <div className="flex items-center space-x-3">
-                                <h3 className="text-lg font-semibold">
-                                  {supplier.profiles?.business_name || supplier.profiles?.full_name || 'Unnamed Supplier'}
-                                </h3>
-                                <Badge variant="secondary" className="bg-success/10 text-success">
-                                  ✓ Verified
-                                </Badge>
-                              </div>
-                              
-                              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                                <div className="flex items-center space-x-1">
-                                  <MapPin className="w-4 h-4" />
-                                  <span>{supplier.profiles?.city || 'Location not set'}, {supplier.profiles?.state || ''}</span>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                  <span>{supplier.rating || 0}</span>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                  <Clock className="w-4 h-4" />
-                                  <span>{supplier.delivery_time_days || 3} days</span>
-                                </div>
-                              </div>
-                              
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium">Specializations:</p>
-                                <div className="flex flex-wrap gap-2">
-                                  {supplier.specializations?.map((spec: string, idx: number) => (
-                                    <Badge key={idx} variant="outline">
-                                      {spec}
-                                    </Badge>
-                                  )) || <span className="text-sm text-muted-foreground">No specializations listed</span>}
-                                </div>
-                              </div>
-                              
-                              <p className="text-sm font-medium text-primary">
-                                Min Order: ₹{supplier.min_order_amount || 0}
-                              </p>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2">
-                              <Button variant="outline" size="sm">
-                                <MessageSquare className="w-4 h-4 mr-2" />
-                                Message
-                              </Button>
-                              <ProductViewDialog 
-                                supplierId={supplier.id}
-                                supplierName={supplier.profiles?.business_name || supplier.profiles?.full_name || 'Unnamed Supplier'}
-                              />
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))
-                  )}
-                </div>
-              </div>
+              <SearchableSuppliers />
             </TabsContent>
 
             <TabsContent value="orders">

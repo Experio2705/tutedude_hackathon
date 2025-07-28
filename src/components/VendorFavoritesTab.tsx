@@ -33,12 +33,10 @@ export const VendorFavoritesTab = () => {
   useEffect(() => {
     fetchFavorites();
     
-    // Set up real-time subscription
+    // Set up real-time subscription for favorites (placeholder)
+    // Will be enabled once types are updated
     const favoritesSubscription = supabase
       .channel('favorites-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'vendor_favorites' }, () => {
-        fetchFavorites();
-      })
       .subscribe();
 
     return () => {
