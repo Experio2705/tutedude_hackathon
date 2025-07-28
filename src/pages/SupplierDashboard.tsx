@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
 import { SupplierStats } from "@/components/SupplierStats";
 import { BackButton } from "@/components/BackButton";
+import { EditProductDialog } from "@/components/EditProductDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -394,9 +395,10 @@ export default function SupplierDashboard() {
                             )}
                             
                             <div className="flex gap-2 pt-2">
-                              <Button variant="outline" size="sm" className="flex-1">
-                                Edit
-                              </Button>
+                              <EditProductDialog 
+                                product={product}
+                                onProductUpdated={fetchProducts}
+                              />
                               <Button variant="outline" size="sm" className="flex-1">
                                 View Orders
                               </Button>

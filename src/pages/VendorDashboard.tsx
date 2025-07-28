@@ -11,6 +11,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
 import { VendorStats } from "@/components/DashboardStats";
 import { BackButton } from "@/components/BackButton";
+import { VendorOrdersTab } from "@/components/VendorOrdersTab";
+import { VendorFavoritesTab } from "@/components/VendorFavoritesTab";
+import { ProductViewDialog } from "@/components/ProductViewDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -286,9 +289,10 @@ export default function VendorDashboard() {
                                 <MessageSquare className="w-4 h-4 mr-2" />
                                 Message
                               </Button>
-                              <Button size="sm" className="bg-brand-gradient hover:opacity-90">
-                                View Products
-                              </Button>
+                              <ProductViewDialog 
+                                supplierId={supplier.id}
+                                supplierName={supplier.profiles?.business_name || supplier.profiles?.full_name || 'Unnamed Supplier'}
+                              />
                             </div>
                           </div>
                         </CardContent>
@@ -300,31 +304,11 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="orders">
-              <Card>
-                <CardHeader>
-                  <CardTitle>My Orders</CardTitle>
-                  <CardDescription>Track your recent orders</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-center py-8">
-                    No orders yet. Start by placing your first order!
-                  </p>
-                </CardContent>
-              </Card>
+              <VendorOrdersTab />
             </TabsContent>
 
             <TabsContent value="favorites">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Favorite Suppliers</CardTitle>
-                  <CardDescription>Your saved suppliers for quick access</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-center py-8">
-                    No favorites yet. Add suppliers to your favorites for quick access!
-                  </p>
-                </CardContent>
-              </Card>
+              <VendorFavoritesTab />
             </TabsContent>
           </Tabs>
         </div>

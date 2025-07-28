@@ -331,6 +331,42 @@ export type Database = {
           },
         ]
       }
+      vendor_favorites: {
+        Row: {
+          created_at: string
+          id: string
+          supplier_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          supplier_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          supplier_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_favorites_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_favorites_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
